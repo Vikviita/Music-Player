@@ -52,4 +52,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.navigation)
     debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(project(":domain"))
+    implementation(project(":features:track_list"))
+    implementation(project(":features:play_screen"))
+    implementation(project(":uikit"))
 }

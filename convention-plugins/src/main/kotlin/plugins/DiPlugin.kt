@@ -1,5 +1,6 @@
 package plugins
 
+import getPluginId
 import libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,7 +12,7 @@ class DiPlugin:Plugin<Project> {
     override fun apply(target: Project){
         with(target){
             plugins {
-                apply(libs.plugins.kotlin.kapt)
+                apply(libs.plugins.kotlin.kapt.getPluginId())
             }
             dependencies {
                 add("implementation",libs.dagger)

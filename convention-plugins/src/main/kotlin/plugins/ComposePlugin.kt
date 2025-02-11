@@ -1,6 +1,7 @@
 package plugins
 
 import android
+import getPluginId
 import libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,7 +13,7 @@ class ComposePlugin:Plugin<Project> {
     override fun apply(target: Project) {
         with(target){
             plugins {
-                apply(libs.plugins.kotlin.compose)
+                apply(libs.plugins.kotlin.compose.getPluginId())
             }
             android {
                 buildFeatures {

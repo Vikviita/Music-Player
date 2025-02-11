@@ -14,6 +14,11 @@ viewModelCompose = "2.8.5"
 retrofit ="2.11.0"
 serializaiton = "1.8.0"
 jetpackMedia = "1.5.1"
+junitJunit = "4.13.2"
+androidxJunit = "1.2.1"
+espressoCoreVersion = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +44,11 @@ gradletools-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ver
 kotlin-serialization = {module="org.jetbrains.kotlinx:kotlinx-serialization-json",version.ref="serializaiton"}
 #Jetpack Media
 androidx-media = {module ="androidx.media3:media3-session",version.ref = "jetpackMedia"}
+junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCoreVersion" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [plugins]
@@ -53,6 +63,6 @@ convention-configprovider ={id="config.provider.plugin",version="1"}
 convention-common={id="convention.common.plugin",version="1"}
 convention-compose={id="convention.compose.plugin",version="1"}
 convention-di={id="convention.di.plugin",version="1"}
-convention-serialization={id="onvention.serialization.plugin",version="1"}
+convention-serialization={id="convention.serialization.plugin",version="1"}
 
 

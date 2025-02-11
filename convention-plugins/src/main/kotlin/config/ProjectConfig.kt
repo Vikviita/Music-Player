@@ -4,7 +4,7 @@ import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 object ProjectConfig {
-    const val nameSpace = "com.vikvita.musicplayer"
+    const val nameSpace = "com.vikvita.music_player"
     const val compileSdk = 35
     const val minSdk = 24
     const val targetSdk = 35
