@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("convention-plugins")
     repositories {
         google {
             content {
@@ -21,4 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Music Player"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":features:track_list")
+include(":features:play_screen")
+include(":uikit")
