@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.convention.configprovider)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -37,6 +38,9 @@ android {
     kotlinOptions {
         jvmTarget = ProjectConfig.jvmTarget
     }
+    kapt{
+        generateStubs = true
+    }
     buildFeatures {
         compose = true
     }
@@ -52,8 +56,11 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.navigation)
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 
     implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(project(":features:track_list"))
     implementation(project(":features:play_screen"))
     implementation(project(":uikit"))
