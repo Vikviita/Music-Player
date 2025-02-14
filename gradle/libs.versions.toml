@@ -12,7 +12,7 @@ composeNav = "2.8.6"
 daggerVersion = "2.55"
 viewModelCompose = "2.8.5"
 retrofit ="2.11.0"
-serializaiton = "1.8.0"
+gsonVersion = "2.10.1"
 jetpackMedia = "1.5.1"
 junitJunit = "4.13.2"
 androidxJunit = "1.2.1"
@@ -37,11 +37,12 @@ dagger = {group="com.google.dagger", name = "dagger",version.ref ="daggerVersion
 dagger-compiler = {group="com.google.dagger",name="dagger-compiler",version.ref="daggerVersion"}
 #Network
 retrofit ={group="com.squareup.retrofit2", name = "retrofit",version.ref = "retrofit"}
+retrofitGsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 #Gradle Tools
 gradletools-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 gradletools-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 #Serialization
-kotlin-serialization = {module="org.jetbrains.kotlinx:kotlinx-serialization-json",version.ref="serializaiton"}
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 #Jetpack Media
 androidx-media = {module ="androidx.media3:media3-session",version.ref = "jetpackMedia"}
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -54,12 +55,10 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-kapt = {id="org.jetbrains.kotlin.kapt",version.ref = "kotlin"}
-kotlin-serialization={id="org.jetbrains.kotlin.plugin.serialization",version.ref="kotlin"}
 #Convention plugins
 convention-configprovider ={id="config.provider.plugin",version="1"}
 convention-common={id="convention.common.plugin",version="1"}
 convention-compose={id="convention.compose.plugin",version="1"}
 convention-di={id="convention.di.plugin",version="1"}
-convention-serialization={id="convention.serialization.plugin",version="1"}
 
 
