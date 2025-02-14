@@ -3,7 +3,11 @@ package com.vikvita.music_player.data.di
 import dagger.Module
 
 @Module
-class NetworkModule {}
+internal class NetworkModule {}
 
 @Module
-interface DataRepositoryModule{}
+internal interface DataRepositoryModule{}
+
+
+@Module(includes = [NetworkModule::class,DataRepositoryModule::class])
+interface DataGraph
