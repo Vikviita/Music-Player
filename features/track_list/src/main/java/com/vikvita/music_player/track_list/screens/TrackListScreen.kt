@@ -25,6 +25,7 @@ import com.vikvita.music_player.track_list.TrackListPreviewParametrProvider
 import com.vikvita.music_player.track_list.TrackListViewModel
 import com.vikvita.music_player.track_list.components.TrackListItem
 import com.vikvita.music_player.track_list.components.TrackSearchBar
+import com.vikvita.music_player.track_list.models.ActionButtonParams
 import com.vikvita.music_player.track_list.models.TrackUiModel
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 import com.vikvita.music_player.uikit.theme.Dimens
@@ -39,9 +40,10 @@ fun TrackListScreen(
     TrackListScreenContent(
         trackList = trackList,
         search = viewModel::searchTrackByName,
-        clear = { viewModel.initTrackList() },
+        clear = viewModel::initTrackList,
         goToPlay = goToPlay,
-        status = status
+        status = status,
+        restart = viewModel::initTrackList
     )
 }
 
@@ -52,7 +54,8 @@ private fun TrackListScreenContent(
     status: State<LoadStatus>,
     search: (String) -> Unit,
     clear: () -> Unit,
-    goToPlay: (String) -> Unit
+    goToPlay: (String) -> Unit,
+    restart:()->Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TrackSearchBar(
@@ -67,7 +70,11 @@ private fun TrackListScreenContent(
             is LoadStatus.Error -> {
                 StatusScreen(
                     icon = R.drawable.ic_error,
-                    message = stringResource(R.string.something_wrong)
+                    message = stringResource(R.string.something_wrong),
+                    action = ActionButtonParams(
+                       text = stringResource(R.string.restart),
+                        onClick = restart
+                    )
                 )
             }
             LoadStatus.Initial, LoadStatus.InProgress -> {
@@ -114,7 +121,8 @@ private fun TrackListScreenPreview(
                 trackList = remember { mutableStateOf(listOf()) },
                 status = remember { mutableStateOf(LoadStatus.Success) },
                 search = {},
-                clear = {}
+                clear = {},
+                goToPlay = {}
             ) { }
         }
     }

@@ -20,6 +20,7 @@ espressoCoreVersion = "3.6.1"
 appcompat = "1.7.0"
 material3 = "1.3.1"
 coil="3.1.0"
+serializaiton = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3",
 androidx-ui-navigation ={group="androidx.navigation",name = "navigation-compose", version.ref ="composeNav"}
 compose-coil={module="io.coil-kt.coil3:coil-compose",version.ref="coil"}
 compose-coil-okhttp={module="io.coil-kt.coil3:coil-network-okhttp",version.ref = "coil"}
+kotlin-serialization = {module="org.jetbrains.kotlinx:kotlinx-serialization-json",version.ref="serializaiton"}
 #DI
 dagger = {group="com.google.dagger", name = "dagger",version.ref ="daggerVersion"}
 dagger-compiler = {group="com.google.dagger",name="dagger-compiler",version.ref="daggerVersion"}
@@ -58,6 +60,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-kapt = {id="org.jetbrains.kotlin.kapt",version.ref = "kotlin"}
+kotlin-serialization={id="org.jetbrains.kotlin.plugin.serialization",version.ref="kotlin"}
 #Convention plugins
 convention-configprovider ={id="config.provider.plugin",version="1"}
 convention-common={id="convention.common.plugin",version="1"}
