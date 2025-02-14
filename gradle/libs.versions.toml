@@ -47,7 +47,6 @@ retrofitGsonConverter = { group = "com.squareup.retrofit2", name = "converter-gs
 gradletools-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 gradletools-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 #Serialization
-kotlin-serialization = {module="org.jetbrains.kotlinx:kotlinx-serialization-json",version.ref="serializaiton"}
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 #Jetpack Media
 androidx-media = {module ="androidx.media3:media3-session",version.ref = "jetpackMedia"}

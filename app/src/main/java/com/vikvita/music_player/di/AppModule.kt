@@ -1,6 +1,7 @@
 package com.vikvita.music_player.di
 
 import com.vikvita.music_player.data.di.ApiRepository
+import com.vikvita.music_player.data.di.LocalRepository
 import com.vikvita.music_player.domain.TrackRepository
 import com.vikvita.music_player.domain.interactor.TrackListInteractor
 import dagger.Module
@@ -22,5 +23,10 @@ class AppProvidingModule{
     @Singleton
     @Provides
     @ApiTrackInteractor
-    fun provieApiInteractor(@ApiRepository repository: TrackRepository):TrackListInteractor = TrackListInteractor(repository)
+    fun provideApiTrackListInteractor(@ApiRepository repository: TrackRepository):TrackListInteractor = TrackListInteractor(repository)
+
+    @Singleton
+    @Provides
+    @LocalTrackInteractor
+    fun provideLocalTraclListInteractor(@LocalRepository repository: TrackRepository):TrackListInteractor = TrackListInteractor(repository)
 }
