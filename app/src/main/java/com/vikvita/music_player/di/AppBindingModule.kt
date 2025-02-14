@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
 @Module
-abstract class AppModule {
+abstract class AppBindingModule {
     @Singleton
     @Binds
     abstract fun context(appInstance: Application): Context

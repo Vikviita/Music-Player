@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.convention.configprovider)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -58,6 +59,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+    implementation(libs.kotlin.serialization)
 
     implementation(project(":domain"))
     implementation(project(":data"))
