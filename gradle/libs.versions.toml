@@ -66,5 +66,6 @@ convention-configprovider ={id="config.provider.plugin",version="1"}
 convention-common={id="convention.common.plugin",version="1"}
 convention-compose={id="convention.compose.plugin",version="1"}
 convention-di={id="convention.di.plugin",version="1"}
+convention-serialization={id="convention.serialization.plugin",version="1"}
 
 

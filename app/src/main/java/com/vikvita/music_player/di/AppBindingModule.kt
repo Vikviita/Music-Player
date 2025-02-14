@@ -5,10 +5,11 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
+
 @Module
-abstract class AppBindingModule {
+interface AppBindingModule {
     @Singleton
     @Binds
-    abstract fun context(appInstance: Application): Context
+    fun provideApplicationContext(appInstance: Application): Context
 
 }
