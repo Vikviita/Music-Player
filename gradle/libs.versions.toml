@@ -19,6 +19,7 @@ androidxJunit = "1.2.1"
 espressoCoreVersion = "3.6.1"
 appcompat = "1.7.0"
 material3 = "1.3.1"
+coil="3.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,8 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3",version.ref = "material3" }
 androidx-ui-navigation ={group="androidx.navigation",name = "navigation-compose", version.ref ="composeNav"}
+compose-coil={module="io.coil-kt.coil3:coil-compose",version.ref="coil"}
+compose-coil-okhttp={module="io.coil-kt.coil3:coil-network-okhttp",version.ref = "coil"}
 #DI
 dagger = {group="com.google.dagger", name = "dagger",version.ref ="daggerVersion"}
 dagger-compiler = {group="com.google.dagger",name="dagger-compiler",version.ref="daggerVersion"}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_bar_hint">Введите название песни</string>
+    <string name="downloading">Загрузка…</string>
+    <string name="empty_list">Ничего не найдено</string>
+    <string name="something_wrong">Что-то пошло не так</string>
+</resources>
