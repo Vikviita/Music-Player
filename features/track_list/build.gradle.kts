@@ -6,4 +6,6 @@ plugins {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":uikit"))
+    implementation(libs.compose.coil)
+    implementation(libs.compose.coil.okhttp)
 }

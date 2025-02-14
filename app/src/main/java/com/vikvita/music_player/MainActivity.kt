@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -24,10 +25,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.vikvita.music_player.di.ApiTrackInteractor
+import com.vikvita.music_player.domain.interactor.TrackListInteractor
+import com.vikvita.music_player.track_list.TrackListViewModel
+import com.vikvita.music_player.track_list.screens.TrackListScreen
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 import kotlinx.serialization.Serializable
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+    @Inject
+    @ApiTrackInteractor
+    lateinit var apiInteractor: TrackListInteractor
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -83,6 +92,14 @@ class MainActivity : ComponentActivity() {
                         ) {
                             composable<MainNavRoute.ApiTrackList> {
                                 isNavBarVisible.value = true
+                                val viewModel: TrackListViewModel = viewModel(
+                                    factory = TrackListViewModel.factory(trackListInteractor = apiInteractor)
+                                )
+                                TrackListScreen(
+                                    viewModel = viewModel
+                                ) { id ->
+                                    navController.navigate(MainNavRoute.PlayMusicScreen(id))
+                                }
                             }
                             composable<MainNavRoute.LocalTrackList> {
                                 isNavBarVisible.value = true
