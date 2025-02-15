@@ -11,7 +11,7 @@ class PlayTrackInteractor(
     private val trackRepository: TrackRepository
 ) {
     private val _currentTrack = MutableSharedFlow<Track>()
-    private val _loadingTrackStatus = MutableStateFlow<LoadStatus>(LoadStatus.Initial)
+    private val _loadingTrackStatus = MutableStateFlow<LoadStatus<Track>>(LoadStatus.Initial)
     private var trackList:List<Track> = listOf()
     private var currentTrackIndex = -1
     private val _isPrevAndNextTrackAvailable = MutableStateFlow(false)
@@ -25,7 +25,7 @@ class PlayTrackInteractor(
         if (trackResult.isSuccess){
             val track = trackResult.getOrNull()!!
             _currentTrack.emit(track)
-            _loadingTrackStatus.emit(LoadStatus.Success)
+            _loadingTrackStatus.emit(LoadStatus.Success(track))
             val trackListByAlbum = trackRepository.getTracksByAlbum(track.albumId)
             if(trackListByAlbum.isSuccess){
                 trackList = trackListByAlbum.getOrNull()!!

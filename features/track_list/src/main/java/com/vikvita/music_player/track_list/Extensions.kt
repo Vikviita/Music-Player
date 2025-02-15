@@ -12,6 +12,6 @@ internal fun Track.toTrackUiModel(): TrackUiModel {
     )
 }
 
+fun List<Track>.toListTrackUiModel(): List<TrackUiModel> = this.map { it.toTrackUiModel() }
 
-internal fun List<Track>.toListTrackUiModel(): List<TrackUiModel> = this.map { it.toTrackUiModel() }
 

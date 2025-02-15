@@ -37,10 +37,8 @@ fun TrackListScreen(
     viewModel: TrackListViewModel,
     goToPlay: (String) -> Unit
 ) {
-    val trackList = viewModel.trackList.collectAsStateWithLifecycle()
     val status = viewModel.loadingStatus.collectAsStateWithLifecycle()
     TrackListScreenContent(
-        trackList = trackList,
         search = viewModel::searchTrackByName,
         clear = viewModel::initTrackList,
         goToPlay = goToPlay,
@@ -52,8 +50,7 @@ fun TrackListScreen(
 
 @Composable
 private fun TrackListScreenContent(
-    trackList: State<List<TrackUiModel>>,
-    status: State<LoadStatus>,
+    status: State<LoadStatus<List<TrackUiModel>>>,
     search: (String) -> Unit,
     clear: () -> Unit,
     goToPlay: (String) -> Unit,
@@ -79,11 +76,11 @@ private fun TrackListScreenContent(
                 BaseLoadingScreen()
             }
 
-            LoadStatus.Success -> {
-                if (trackList.value.isNotEmpty()) {
+            is LoadStatus.Success -> {
+                if (status.data.isNotEmpty()) {
                     LazyColumn {
                         items(
-                            items = trackList.value,
+                            items = status.data,
                             key = { it.id }
                         ) {
                             TrackListItem(track = it, onClick = goToPlay)
@@ -114,8 +111,7 @@ private fun TrackListScreenPreview(
     MusicPlayerTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             TrackListScreenContent(
-                trackList = remember { mutableStateOf(listOf()) },
-                status = remember { mutableStateOf(LoadStatus.Success) },
+                status = remember { mutableStateOf(LoadStatus.Initial) },
                 search = {},
                 clear = {},
                 goToPlay = {}
