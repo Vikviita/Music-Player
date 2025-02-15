@@ -1,6 +1,6 @@
 package com.vikvita.music_player.play_screen.models
 
-internal data class PlayingTrackUiModel(
+ data class PlayingTrackUiModel(
     val id:String,
     val songTitle:String,
     val albumTitle:String,

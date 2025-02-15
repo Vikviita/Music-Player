@@ -24,15 +24,15 @@ import com.vikvita.music_player.uikit.theme.Dimens
 
 @Composable
 internal fun CurrentTrackInfo(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     track: PlayingTrackUiModel
 ) {
     Column(
-        modifier = modifier.padding(start = Dimens.Paddings.s),
+        modifier = modifier.padding(start = Dimens.Paddings.l),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) { 
-        Surface(shape = MaterialTheme.shapes.large){
+    ) {
+        Surface(shape = MaterialTheme.shapes.large) {
             AsyncImage(
                 modifier = Modifier.size(350.dp),
                 model = track.picture,
@@ -48,9 +48,21 @@ internal fun CurrentTrackInfo(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(track.songTitle, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(track.albumTitle,style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(track.artistName, style = MaterialTheme.typography.titleSmall , color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                track.songTitle,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                track.albumTitle,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                track.artistName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 
@@ -60,10 +72,10 @@ internal fun CurrentTrackInfo(
 @Composable
 @Preview
 private fun CurrentTrackInfoPreview(
-    @PreviewParameter(PlayingTrackUiModelProvider::class) track:PlayingTrackUiModel
+    @PreviewParameter(PlayingTrackUiModelProvider::class) track: PlayingTrackUiModel
 ) {
     MusicPlayerTheme {
-        Surface{
+        Surface {
             CurrentTrackInfo(
                 track = track
             )

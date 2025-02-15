@@ -16,10 +16,11 @@ import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 internal fun PlayerButton(
     modifier: Modifier=Modifier,
     @DrawableRes icon:Int,
+    isEnabled:Boolean = true,
     onClick:()->Unit
 ){
     Surface(shape = MaterialTheme.shapes.extraLarge ){
-        IconButton(onClick = onClick) {
+        IconButton(onClick = onClick, enabled = isEnabled) {
             Icon(modifier = modifier, painter = painterResource(icon), contentDescription = null)
         }
     }

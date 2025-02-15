@@ -15,8 +15,12 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,12 +32,15 @@ import com.vikvita.music_player.uikit.theme.Dimens
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayerControlBar(
+    isNextTrackAvailable: State<Boolean>,
     onPauseClick: () -> Unit,
+    onResumeClick:() ->Unit,
     onNextClick: () -> Unit,
     onPrevClick: () -> Unit,
     onProgressChange: (Float) -> Unit
 ) {
     val progress = remember{ mutableFloatStateOf(0f) }
+    var isPause by remember { mutableStateOf(false) }
     Surface {
         Column(
             modifier = Modifier
@@ -48,17 +55,34 @@ fun PlayerControlBar(
                 PlayerButton(
                     modifier = Modifier.size(50.dp),
                     icon = R.drawable.ic_previous,
-                    onClick = onPrevClick
+                    isEnabled = isNextTrackAvailable.value,
+                    onClick = {
+                        onPrevClick()
+                        isPause = false
+                    }
                 )
                 PlayerButton(
                     modifier = Modifier.size(50.dp),
-                    icon = R.drawable.ic_pause,
-                    onClick = onPauseClick
+                    icon = if(isPause)R.drawable.ic_play else R.drawable.ic_pause ,
+                    onClick = {
+                        if(isPause) {
+                            onResumeClick()
+                            isPause = false
+
+                        } else{
+                            onPauseClick()
+                            isPause=true
+                        }
+                    }
                 )
                 PlayerButton(
                     modifier = Modifier.size(50.dp),
                     icon = R.drawable.ic_next,
-                    onClick = onNextClick
+                    isEnabled = isNextTrackAvailable.value,
+                    onClick = {
+                        isPause = false
+                        onNextClick()
+                    }
                 )
             }
             Spacer(modifier = Modifier.width(Dimens.Paddings.s))
@@ -95,7 +119,9 @@ private fun PlayerControlBarPreview() {
             onProgressChange = {},
             onPauseClick = {},
             onNextClick = {},
-            onPrevClick = {}
+            onPrevClick = {},
+            onResumeClick ={},
+            isNextTrackAvailable = remember { mutableStateOf(true) }
         )
     }
 }
