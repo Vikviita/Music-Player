@@ -25,9 +25,11 @@ import com.vikvita.music_player.track_list.TrackListPreviewParametrProvider
 import com.vikvita.music_player.track_list.TrackListViewModel
 import com.vikvita.music_player.track_list.components.TrackListItem
 import com.vikvita.music_player.track_list.components.TrackSearchBar
-import com.vikvita.music_player.track_list.models.ActionButtonParams
 import com.vikvita.music_player.track_list.models.TrackUiModel
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
+import com.vikvita.music_player.uikit.screens.BaseErrorStatusScreen
+import com.vikvita.music_player.uikit.screens.BaseLoadingScreen
+import com.vikvita.music_player.uikit.screens.StatusScreen
 import com.vikvita.music_player.uikit.theme.Dimens
 
 @Composable
@@ -55,7 +57,7 @@ private fun TrackListScreenContent(
     search: (String) -> Unit,
     clear: () -> Unit,
     goToPlay: (String) -> Unit,
-    restart:()->Unit
+    restart: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TrackSearchBar(
@@ -68,21 +70,15 @@ private fun TrackListScreenContent(
 
         when (val status = status.value) {
             is LoadStatus.Error -> {
-                StatusScreen(
-                    icon = R.drawable.ic_error,
-                    message = stringResource(R.string.something_wrong),
-                    action = ActionButtonParams(
-                       text = stringResource(R.string.restart),
-                        onClick = restart
-                    )
+                BaseErrorStatusScreen(
+                    onRestart = restart
                 )
             }
+
             LoadStatus.Initial, LoadStatus.InProgress -> {
-                StatusScreen(
-                    isProgressBarVisible = true,
-                    message = stringResource(R.string.downloading)
-                )
+                BaseLoadingScreen()
             }
+
             LoadStatus.Success -> {
                 if (trackList.value.isNotEmpty()) {
                     LazyColumn {
