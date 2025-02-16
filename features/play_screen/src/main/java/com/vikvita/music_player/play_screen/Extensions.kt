@@ -28,12 +28,25 @@ internal fun Track.toPlayTrackUiModel(): PlayingTrackUiModel {
     )
 }
 
-internal fun List<Track>.toListPlayingTrackUiModel(): List<PlayingTrackUiModel> =
-    map { it.toPlayTrackUiModel() }
+internal fun List<Track>.toListMediaItem(): List<MediaItem> =
+    map{ track ->
+        MediaItem.Builder()
+            .setMediaId(track.id)
+            .setUri(track.source)
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                    .setTitle(track.trackTitle)
+                    .setArtist(track.artistName)
+                    .setAlbumTitle(track.albumName)
+                    .build()
+            ).build()
+    }
 
-internal val Player.currentMediaItems: List<MediaItem> get() {
-    return List(mediaItemCount, ::getMediaItemAt)
-}
+internal val Player.currentMediaItems: List<MediaItem>
+    get() {
+        return List(mediaItemCount, ::getMediaItemAt)
+    }
 
 fun Player.updatePlaylist(incoming: List<MediaItem>) {
     val oldMediaIds = currentMediaItems.map { it.mediaId }.toSet()
@@ -47,20 +60,6 @@ fun Player.playMediaAt(index: Int) {
     seekToDefaultPosition(index)
     playWhenReady = true
     prepare()
-}
-
-internal fun PlayingTrackUiModel.toMediaItem(): MediaItem {
-    return MediaItem.Builder()
-        .setMediaId(id)
-        .setUri(source)
-        .setMediaMetadata(
-            MediaMetadata.Builder()
-                .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-                .setTitle(songTitle)
-                .setArtist(artistName)
-                .setAlbumTitle(albumTitle)
-                .build()
-        ).build()
 }
 
 

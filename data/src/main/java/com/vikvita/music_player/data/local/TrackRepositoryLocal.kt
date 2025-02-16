@@ -5,7 +5,6 @@ import com.vikvita.music_player.data.local.models.LocalTrackModel
 import com.vikvita.music_player.domain.TrackRepository
 import com.vikvita.music_player.domain.models.Track
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -29,8 +28,8 @@ internal class TrackRepositoryLocal @Inject constructor(
 
     override suspend fun getTrackById(id: String): Result<Track> =
         kotlin.runCatching {
-            delay(1000)
-            listOfTrack[id.toInt()].toDomainTrack(id) }
+            listOfTrack[id.toInt()].toDomainTrack(id)
+        }
 
 
     override suspend fun getTracksByAlbum(id: String): Result<List<Track>> = kotlin.runCatching {

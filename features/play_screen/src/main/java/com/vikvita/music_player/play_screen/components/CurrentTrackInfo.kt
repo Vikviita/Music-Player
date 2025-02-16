@@ -25,7 +25,7 @@ import com.vikvita.music_player.uikit.theme.Dimens
 @Composable
 internal fun CurrentTrackInfo(
     modifier: Modifier = Modifier,
-    track: PlayingTrackUiModel
+    track: PlayingTrackUiModel?
 ) {
     Column(
         modifier = modifier.padding(start = Dimens.Paddings.l),
@@ -35,35 +35,37 @@ internal fun CurrentTrackInfo(
         Surface(shape = MaterialTheme.shapes.large) {
             AsyncImage(
                 modifier = Modifier.size(350.dp),
-                model = track.picture,
+                model = track?.picture,
                 contentDescription = null,
                 placeholder = painterResource(R.drawable.song_stub),
                 error = painterResource(R.drawable.song_stub),
                 fallback = painterResource(R.drawable.song_stub),
             )
         }
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                track.songTitle,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                track.albumTitle,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                track.artistName,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        track?.let {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    track.songTitle,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    track.albumTitle,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    track.artistName,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
+
     }
 
 }

@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,10 +27,9 @@ import com.vikvita.music_player.play_screen.R
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 import com.vikvita.music_player.uikit.theme.Dimens
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun PlayerControlBar(
-    isNextTrackAvailable: State<Boolean>,
     onPauseClick: () -> Unit,
     onResumeClick:() ->Unit,
     onNextClick: () -> Unit,
@@ -55,7 +52,6 @@ fun PlayerControlBar(
                 PlayerButton(
                     modifier = Modifier.size(50.dp),
                     icon = R.drawable.ic_previous,
-                    isEnabled = isNextTrackAvailable.value,
                     onClick = {
                         onPrevClick()
                         isPause = false
@@ -78,7 +74,6 @@ fun PlayerControlBar(
                 PlayerButton(
                     modifier = Modifier.size(50.dp),
                     icon = R.drawable.ic_next,
-                    isEnabled = isNextTrackAvailable.value,
                     onClick = {
                         isPause = false
                         onNextClick()
@@ -121,7 +116,6 @@ private fun PlayerControlBarPreview() {
             onNextClick = {},
             onPrevClick = {},
             onResumeClick ={},
-            isNextTrackAvailable = remember { mutableStateOf(true) }
         )
     }
 }

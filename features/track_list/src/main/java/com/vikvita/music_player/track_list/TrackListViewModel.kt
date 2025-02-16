@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.vikvita.music_player.domain.interactor.LoadStatus
 import com.vikvita.music_player.domain.interactor.TrackListInteractor
-import com.vikvita.music_player.domain.interactor.map
+import com.vikvita.music_player.domain.map
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn

@@ -2,45 +2,44 @@ package com.vikvita.music_player.domain.interactor
 
 import com.vikvita.music_player.domain.TrackRepository
 import com.vikvita.music_player.domain.models.Track
+import com.vikvita.music_player.domain.swap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class PlayTrackInteractor(
     private val trackRepository: TrackRepository
 ) {
-    private val _loadingTrackStatus = MutableStateFlow<LoadStatus<Track>>(LoadStatus.Initial)
-    private var trackList:List<Track> = listOf()
-    private var currentTrackIndex = -1
-    private val _isPrevAndNextTrackAvailable = MutableStateFlow(false)
+    private val _loadingTrackStatus = MutableStateFlow<LoadStatus<List<Track>>>(LoadStatus.Initial)
+    private val _currentTrack = MutableStateFlow<Track?>(null)
+    val currentTrack = _currentTrack.asStateFlow()
+    private var listOfTrack: MutableList<Track> = mutableListOf()
     val loadingTrackStatus = _loadingTrackStatus.asStateFlow()
-    val isPrevAndNextTrackAvailable = _isPrevAndNextTrackAvailable.asStateFlow()
 
-    suspend fun getTrackById(id: String) {
+    suspend fun loadTrackAndAlbumTracks(trackId: String) {
         _loadingTrackStatus.emit(LoadStatus.InProgress)
-        val trackResult = trackRepository.getTrackById(id)
-        if (trackResult.isSuccess){
+        val trackResult = trackRepository.getTrackById(trackId)
+        if (trackResult.isSuccess) {
             val track = trackResult.getOrNull()!!
-            _loadingTrackStatus.emit(LoadStatus.Success(track))
             val trackListByAlbum = trackRepository.getTracksByAlbum(track.albumId)
-            if(trackListByAlbum.isSuccess){
-                trackList = trackListByAlbum.getOrNull()!!
-                currentTrackIndex = trackList.indexOfFirst {it.id==track.id}
-                _isPrevAndNextTrackAvailable.emit(trackList.size!=1)
+            if (trackListByAlbum.isSuccess) {
+                listOfTrack.addAll(trackListByAlbum.getOrNull()!!)
+                val trackIndexById = listOfTrack.indexOfFirst { it.id == track.id }
+                listOfTrack.swap(trackIndexById, 0)
+                _loadingTrackStatus.emit(LoadStatus.Success(listOfTrack.toList()))
             }
         } else {
             _loadingTrackStatus.emit(LoadStatus.Error(trackResult.exceptionOrNull()!!.message))
         }
     }
 
-    suspend fun nextTrack(){
-        val nextIndex = currentTrackIndex+1
-        currentTrackIndex = if(nextIndex <= trackList.lastIndex) nextIndex else 0
-        _loadingTrackStatus.emit(LoadStatus.Success(trackList[currentTrackIndex]))
+    fun clear() {
+        listOfTrack.clear()
+        _currentTrack.value = null
+        _loadingTrackStatus.value = LoadStatus.Initial
     }
 
-    suspend fun prevTrack(){
-        val prevIndex = currentTrackIndex-1
-        currentTrackIndex = if(prevIndex>=0) prevIndex else trackList.lastIndex
-        _loadingTrackStatus.emit(LoadStatus.Success(trackList[currentTrackIndex]))
+    suspend fun getTrackByIndex(index: Int) {
+        val track = kotlin.runCatching { listOfTrack[index] }.getOrNull()
+        _currentTrack.emit(track)
     }
 }
