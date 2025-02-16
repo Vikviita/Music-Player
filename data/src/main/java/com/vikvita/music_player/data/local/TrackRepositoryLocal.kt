@@ -8,7 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
+/**
+ * Репозиторий для работы с локальными данными
+ * */
 internal class TrackRepositoryLocal @Inject constructor(
     private val mediaReader: MediaReader
 ) : TrackRepository {

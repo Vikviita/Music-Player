@@ -3,6 +3,9 @@ package com.vikvita.music_player.data.local
 import com.vikvita.music_player.data.local.models.LocalTrackModel
 import com.vikvita.music_player.domain.models.Track
 
+/**
+ * Маппер для [LocalTrackModel]
+ * */
 internal fun LocalTrackModel.toDomainTrack(id:String):Track{
     return Track(
         id=id,

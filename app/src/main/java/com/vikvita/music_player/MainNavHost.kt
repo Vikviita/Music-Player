@@ -28,7 +28,9 @@ import com.vikvita.music_player.play_screen.screens.PlayMusicViewModel
 import com.vikvita.music_player.track_list.TrackListViewModel
 import com.vikvita.music_player.track_list.screens.TrackListScreen
 import kotlinx.serialization.Serializable
-
+/**
+ * Главный NavHost приложения
+ * */
 @Composable
 fun MainNavHost(
     navController: NavHostController,
@@ -37,12 +39,18 @@ fun MainNavHost(
     localPlayInteractor: PlayTrackInteractor,
     apiPlayTrackInteractor: PlayTrackInteractor
 ) {
+    /**
+     * Лист айтемов для Navigation Bar
+     * */
     val routes = remember {
         listOf(
             (R.drawable.ic_api_music to MainNavRoute.ApiTrackList),
             (R.drawable.ic_local_music to MainNavRoute.LocalTrackList)
         )
     }
+    /**
+     * Стейт для того чтобы скрывть NavigationBar там где это нужно
+     * */
     val isNavBarVisible = remember { mutableStateOf(true) }
     Scaffold(bottomBar = {
         if (isNavBarVisible.value) {
@@ -123,7 +131,9 @@ fun MainNavHost(
 
     }
 }
-
+/**
+ * Sealed interface с destinations для навигации
+ * */
 @Serializable
 private sealed interface MainNavRoute {
     @Serializable
@@ -135,7 +145,9 @@ private sealed interface MainNavRoute {
     @Serializable
     data class PlayMusicScreen(val id: String, val type: PlayMusicType)
 }
-
+/**
+ * Enum класс для того чтобы знать какая реализация интерактора должна быть предоставлена для [PlayMusicViewModel]
+ * */
 @Serializable
 private enum class PlayMusicType {
     LOCAL, API

@@ -6,7 +6,9 @@ import android.provider.MediaStore
 import com.vikvita.music_player.data.local.models.LocalTrackModel
 import javax.inject.Inject
 
-
+/**
+ * Получает список аудио файлов скачанных на устройство используя [MediaStore]
+ * */
 internal class MediaReader @Inject constructor(
     private val context: Context
 ) {

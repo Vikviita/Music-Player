@@ -10,11 +10,15 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
 import javax.inject.Singleton
-
+/**
+ * Квалифаер для LocalTrackRepository
+ * */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LocalRepository
-
+/**
+ * Квалифаер для ApiTrackRepository
+ * */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApiRepository
