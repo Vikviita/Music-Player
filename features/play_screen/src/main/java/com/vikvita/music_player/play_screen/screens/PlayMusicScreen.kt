@@ -13,6 +13,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,13 +41,12 @@ fun PlayMusicScreen(
     val loadingStatus by viewModel.loadingStatus.collectAsStateWithLifecycle()
     val mediaController by rememberManagedMediaController()
     val currentTrackInfo=viewModel.currentTrack.collectAsStateWithLifecycle()
-    val isNextTrackAvailable = remember { mutableStateOf(true) }
     val playerState = remember(key1 = mediaController){ mediaController?.state()  }
+    val temProgress = remember { mutableIntStateOf(0) }
     LaunchedEffect(mediaController) {
         mediaController?.let {
-            viewModel.loadTrackAndAlbumTracks(initialId)
+                viewModel.loadTrackAndAlbumTracks(initialId)
         }
-
     }
     when (loadingStatus) {
         is LoadStatus.Error -> BaseErrorStatusScreen { viewModel.loadTrackAndAlbumTracks(initialId) }
@@ -70,11 +70,15 @@ fun PlayMusicScreen(
            }
             PlayMusicScreenContent(
                 track = currentTrackInfo,
-                onProgressChange = {},
+                onProgressChange = {mediaController?.seekTo(it.times(1000L))},
                 onPauseClick = { mediaController?.pause() },
                 onPrevClick = { mediaController?.seekToPrevious() },
                 onNextClick = { mediaController?.seekToNext() },
                 onResumceClick = { mediaController?.playWhenReady = true },
+                isNextAvailable = playerState?.isNextTrackAvailable?:false,
+                isPause = playerState?.isPause?:true,
+                currentProgress = playerState?.currentProgressPosition?:temProgress,
+                maxProgress = playerState?.maxProgressPosition?:temProgress
             )
         }
 
@@ -84,12 +88,16 @@ fun PlayMusicScreen(
 
 @Composable
 private fun PlayMusicScreenContent(
+    isNextAvailable:Boolean,
+    isPause:Boolean,
     track: State<PlayingTrackUiModel?>,
+    maxProgress:State<Int>,
+    currentProgress:State<Int>,
     onPauseClick: () -> Unit,
     onResumceClick: () -> Unit,
     onNextClick: () -> Unit,
     onPrevClick: () -> Unit,
-    onProgressChange: (Float) -> Unit,
+    onProgressChange: (Int) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
         CurrentTrackInfo(
@@ -104,6 +112,10 @@ private fun PlayMusicScreenContent(
             onPrevClick = onPrevClick,
             onProgressChange = onProgressChange,
             onResumeClick = onResumceClick,
+            isNextAvailable = isNextAvailable,
+            isPause = isPause,
+            maxProgressPosition = maxProgress,
+            currentProgressPosition = currentProgress,
         )
     }
 }
@@ -122,6 +134,10 @@ private fun PlayMusicScreenPreview(
                 onPrevClick = {},
                 onProgressChange = {},
                 onResumceClick = {},
+                isNextAvailable = true,
+                isPause = true,
+                maxProgress = remember { mutableIntStateOf(0) },
+                currentProgress =  remember { mutableIntStateOf(0) }
             )
         }
     }

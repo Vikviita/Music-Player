@@ -28,7 +28,7 @@ internal class MediaControllerManager private constructor(context: Context) : Re
      * If the MediaController has not been built or has been released, this method will build a new one.
      */
     @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-    internal fun initialize() {
+    fun initialize() {
         if (factory == null || factory?.isDone == true) {
             factory = MediaController.Builder(
                 appContext,
@@ -54,7 +54,7 @@ internal class MediaControllerManager private constructor(context: Context) : Re
      *
      * This method will release the MediaController and set the controller state to null.
      */
-    internal fun release() {
+    fun release() {
         factory?.let {
             MediaController.releaseFuture(it)
             controller.value = null

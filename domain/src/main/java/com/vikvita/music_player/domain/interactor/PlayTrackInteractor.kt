@@ -16,6 +16,7 @@ class PlayTrackInteractor(
     val loadingTrackStatus = _loadingTrackStatus.asStateFlow()
 
     suspend fun loadTrackAndAlbumTracks(trackId: String) {
+        if(listOfTrack.isNotEmpty()) return
         _loadingTrackStatus.emit(LoadStatus.InProgress)
         val trackResult = trackRepository.getTrackById(trackId)
         if (trackResult.isSuccess) {

@@ -38,12 +38,14 @@ fun TrackListScreen(
     goToPlay: (String) -> Unit
 ) {
     val status = viewModel.loadingStatus.collectAsStateWithLifecycle()
+    val filterText = viewModel.searchingName.collectAsStateWithLifecycle()
     TrackListScreenContent(
         search = viewModel::searchTrackByName,
         clear = viewModel::initTrackList,
         goToPlay = goToPlay,
         status = status,
-        restart = viewModel::initTrackList
+        restart = viewModel::initTrackList,
+        filterText = filterText
     )
 }
 
@@ -54,7 +56,8 @@ private fun TrackListScreenContent(
     search: (String) -> Unit,
     clear: () -> Unit,
     goToPlay: (String) -> Unit,
-    restart: () -> Unit
+    restart: () -> Unit,
+    filterText: State<String?>
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TrackSearchBar(
@@ -62,7 +65,8 @@ private fun TrackListScreenContent(
                 .fillMaxWidth()
                 .padding(Dimens.Paddings.xs),
             startSearch = search,
-            clear = clear
+            clear = clear,
+            filterText = filterText
         )
 
         when (val status = status.value) {
@@ -114,8 +118,10 @@ private fun TrackListScreenPreview(
                 status = remember { mutableStateOf(LoadStatus.Initial) },
                 search = {},
                 clear = {},
-                goToPlay = {}
-            ) { }
+                goToPlay = {},
+                filterText = remember { mutableStateOf("") },
+                restart = {}
+            )
         }
     }
 
