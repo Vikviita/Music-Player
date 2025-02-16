@@ -1,4 +1,4 @@
-package com.vikvita.music_player.track_list.screens
+package com.vikvita.music_player.uikit.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -20,13 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vikvita.music_player.track_list.R
-import com.vikvita.music_player.track_list.models.ActionButtonParams
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
+import com.vikvita.music_player.uikit.R
 import com.vikvita.music_player.uikit.theme.Dimens
 
 @Composable
-internal fun StatusScreen(
+fun StatusScreen(
     isProgressBarVisible: Boolean = false,
     message: String? = null,
     @DrawableRes icon: Int? = null,
@@ -58,41 +57,43 @@ internal fun StatusScreen(
     }
 }
 
+@Composable
+fun BaseErrorStatusScreen(onRestart: () -> Unit) {
+    StatusScreen(
+        message = stringResource(R.string.something_wrong),
+        icon = R.drawable.ic_error,
+        action = ActionButtonParams(
+            text = stringResource(R.string.restart),
+            onClick = onRestart
+        )
+    )
+}
+
+@Composable
+fun BaseLoadingScreen(){
+    StatusScreen(
+        isProgressBarVisible = true,
+        message = stringResource(R.string.downloading),
+    )
+}
+
 
 @Composable
 @Preview
 private fun LoadingStatusScreenPreview() {
     MusicPlayerTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            StatusScreen(
-                isProgressBarVisible = true,
-                message = stringResource(R.string.downloading)
-            )
+           BaseLoadingScreen()
         }
     }
 }
 
 @Composable
 @Preview
-private fun ImageStatusScreen() {
+private fun ErrorStatusScreenPreview() {
     MusicPlayerTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            StatusScreen(
-                icon = R.drawable.ic_search
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-private fun ImageWithMessageStatusScreen() {
-    MusicPlayerTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            StatusScreen(
-                icon = R.drawable.ic_search,
-                message = stringResource(R.string.empty_list)
-            )
+           BaseErrorStatusScreen {  }
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,10 +31,10 @@ import com.vikvita.music_player.uikit.theme.Dimens
 internal fun TrackSearchBar(
     modifier: Modifier = Modifier,
     startSearch: (String) -> Unit,
+    filterText: State<String?>,
     clear: () -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
-    val filterText = remember { mutableStateOf<String?>(null) }
     val focusManager = LocalFocusManager.current
     Column(modifier = modifier){
         OutlinedTextField(
@@ -50,7 +51,6 @@ internal fun TrackSearchBar(
                 onSearch = {
                     if (searchText.isNotBlank()) {
                         startSearch(searchText)
-                        filterText.value = searchText
                         searchText=""
                         focusManager.clearFocus()
                     }
@@ -66,7 +66,6 @@ internal fun TrackSearchBar(
             text = filterText,
         ) {
             clear()
-            filterText.value = null
         }
     }
 
@@ -79,7 +78,8 @@ private fun SearchBarPreview() {
         Surface(color = MaterialTheme.colorScheme.background) {
             TrackSearchBar(
                 startSearch = {},
-                clear = {}
+                clear = {},
+                filterText = remember { mutableStateOf("") }
             )
         }
     }

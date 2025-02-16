@@ -8,9 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 class TrackListInteractor(
     private val trackRepository: TrackRepository
 ){
-    private val _listOfTrack = MutableStateFlow<List<Track>>(listOf())
-    private val _updateTrackListStatus = MutableStateFlow<LoadStatus>(LoadStatus.Initial)
-    val listOfTrack = _listOfTrack.asStateFlow()
+    private val _updateTrackListStatus = MutableStateFlow<LoadStatus<List<Track>>>(LoadStatus.Initial)
     val updateTrackList = _updateTrackListStatus.asStateFlow()
 
     suspend fun initTrackList(){
@@ -18,8 +16,7 @@ class TrackListInteractor(
         val result = trackRepository.getInitialList()
         if(result.isSuccess){
             val list = result.getOrNull()!!
-            _listOfTrack.emit(list)
-            _updateTrackListStatus.emit(LoadStatus.Success)
+            _updateTrackListStatus.emit(LoadStatus.Success(list))
         }
         else{
             _updateTrackListStatus.emit(LoadStatus.Error(result.exceptionOrNull()?.message))
@@ -28,15 +25,13 @@ class TrackListInteractor(
     suspend fun searchByName(name:String){
         _updateTrackListStatus.emit(LoadStatus.InProgress)
         if(name.isBlank()){
-            _updateTrackListStatus.emit(LoadStatus.Success)
-            _listOfTrack.emit(listOf())
+            _updateTrackListStatus.emit(LoadStatus.Success(listOf()))
         }
         else{
             val result = trackRepository.findTrackByName(name)
             if(result.isSuccess){
                 val list = result.getOrNull()!!
-                _listOfTrack.emit(list)
-                _updateTrackListStatus.emit(LoadStatus.Success)
+                _updateTrackListStatus.emit(LoadStatus.Success(list))
             }else{
                 _updateTrackListStatus.emit(LoadStatus.Error(result.exceptionOrNull()?.message))
             }

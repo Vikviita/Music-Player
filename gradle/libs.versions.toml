@@ -50,6 +50,7 @@ gradletools-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ver
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 #Jetpack Media
 androidx-media = {module ="androidx.media3:media3-session",version.ref = "jetpackMedia"}
+androidx-media-exoplayer = {module = "androidx.media3:media3-exoplayer",version.ref="jetpackMedia"}
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 

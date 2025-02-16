@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="downloading">Загрузка…</string>
+    <string name="something_wrong">Что-то пошло не так</string>
+    <string name="restart">Попробовать еще раз</string>
+</resources>

@@ -21,7 +21,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
+import com.vikvita.music_player.domain.interactor.PlayTrackInteractor
 import com.vikvita.music_player.domain.interactor.TrackListInteractor
+import com.vikvita.music_player.play_screen.screens.PlayMusicScreen
+import com.vikvita.music_player.play_screen.screens.PlayMusicViewModel
 import com.vikvita.music_player.track_list.TrackListViewModel
 import com.vikvita.music_player.track_list.screens.TrackListScreen
 import kotlinx.serialization.Serializable
@@ -29,8 +32,10 @@ import kotlinx.serialization.Serializable
 @Composable
 fun MainNavHost(
     navController: NavHostController,
-    localInteractor:TrackListInteractor,
-    apiTrackInteractor: TrackListInteractor
+    localInteractor: TrackListInteractor,
+    apiTrackInteractor: TrackListInteractor,
+    localPlayInteractor: PlayTrackInteractor,
+    apiPlayTrackInteractor: PlayTrackInteractor
 ) {
     val routes = remember {
         listOf(
@@ -73,7 +78,7 @@ fun MainNavHost(
             }
         }
 
-    }){ padding->
+    }) { padding ->
         NavHost(
             modifier = Modifier
                 .padding(padding),
@@ -88,7 +93,7 @@ fun MainNavHost(
                 TrackListScreen(
                     viewModel = viewModel
                 ) { id ->
-                    navController.navigate(MainNavRoute.PlayMusicScreen(id))
+                    navController.navigate(MainNavRoute.PlayMusicScreen(id, PlayMusicType.API))
                 }
             }
             composable<MainNavRoute.LocalTrackList> {
@@ -99,13 +104,20 @@ fun MainNavHost(
                 TrackListScreen(
                     viewModel = viewModel
                 ) { id ->
-                    navController.navigate(MainNavRoute.PlayMusicScreen(id))
+                    navController.navigate(MainNavRoute.PlayMusicScreen(id, PlayMusicType.LOCAL))
                 }
             }
             composable<MainNavRoute.PlayMusicScreen> { backStackEntry ->
                 isNavBarVisible.value = false
                 val playMusic: MainNavRoute.PlayMusicScreen =
                     backStackEntry.toRoute()
+
+                val viewModel: PlayMusicViewModel = viewModel(
+                    factory = PlayMusicViewModel.factory(
+                        if (playMusic.type == PlayMusicType.LOCAL) localPlayInteractor else apiPlayTrackInteractor
+                    )
+                )
+                PlayMusicScreen(initialId = playMusic.id, viewModel = viewModel)
             }
         }
 
@@ -121,5 +133,10 @@ private sealed interface MainNavRoute {
     data object LocalTrackList
 
     @Serializable
-    data class PlayMusicScreen(val id: String)
+    data class PlayMusicScreen(val id: String, val type: PlayMusicType)
+}
+
+@Serializable
+private enum class PlayMusicType {
+    LOCAL, API
 }

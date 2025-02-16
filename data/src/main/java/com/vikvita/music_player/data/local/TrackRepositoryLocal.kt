@@ -25,4 +25,17 @@ internal class TrackRepositoryLocal @Inject constructor(
         listOfTrack.filter { it.title.contains(name) || it.authorName.contains(name) }
             .toDomainTrackList()
     }
+
+    override suspend fun getTrackById(id: String): Result<Track> =
+        kotlin.runCatching {
+            listOfTrack[id.toInt()].toDomainTrack(id)
+        }
+
+
+    override suspend fun getTracksByAlbum(id: String): Result<List<Track>> = kotlin.runCatching {
+        listOfTrack.ifEmpty { throw EmptyList }.toDomainTrackList()
+    }
 }
+
+
+object EmptyList : Throwable("list of tracks is empty")

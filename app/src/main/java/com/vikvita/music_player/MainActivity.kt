@@ -9,20 +9,29 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
-import com.vikvita.music_player.di.ApiTrackInteractor
-import com.vikvita.music_player.di.LocalTrackInteractor
+import com.vikvita.music_player.di.ApiInteractor
+import com.vikvita.music_player.di.LocalInteractor
+import com.vikvita.music_player.domain.interactor.PlayTrackInteractor
 import com.vikvita.music_player.domain.interactor.TrackListInteractor
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
     @Inject
-    @ApiTrackInteractor
-    lateinit var apiTrackInteractor: TrackListInteractor
+    @ApiInteractor
+    lateinit var apiInteractor: TrackListInteractor
 
     @Inject
-    @LocalTrackInteractor
+    @LocalInteractor
     lateinit var localInteractor: TrackListInteractor
+
+    @Inject
+    @LocalInteractor
+    lateinit var localPlayInteractor:PlayTrackInteractor
+
+    @Inject
+    @ApiInteractor
+    lateinit var apiPlayInteractor:PlayTrackInteractor
 
     private val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_AUDIO
@@ -33,15 +42,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-
         setContent {
             val navController = rememberNavController()
             MusicPlayerTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     MainNavHost(
                         navController = navController,
-                        apiTrackInteractor = apiTrackInteractor,
-                        localInteractor = localInteractor
+                        apiTrackInteractor = apiInteractor,
+                        localInteractor = localInteractor,
+                        localPlayInteractor = localPlayInteractor,
+                        apiPlayTrackInteractor = apiPlayInteractor
                     )
                 }
             }
