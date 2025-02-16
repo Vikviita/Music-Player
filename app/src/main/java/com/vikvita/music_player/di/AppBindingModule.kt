@@ -5,7 +5,9 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
-
+/**
+ * Модуль для Биндинга зависимостей
+ * */
 @Module
 interface AppBindingModule {
     @Singleton

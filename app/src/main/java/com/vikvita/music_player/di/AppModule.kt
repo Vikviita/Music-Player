@@ -9,16 +9,22 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
 import javax.inject.Singleton
-
+/**
+ * Квалифаер для Интерактора ,который работает с данными из api
+ * */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApiInteractor
-
+/**
+ * Квалифаер для Интерактора ,который работает с локальными данными
+ * */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LocalInteractor
 
-
+/**
+ * Модуль для Предоставления зависимостей
+ * */
 @Module
 class AppProvidingModule{
     @Singleton

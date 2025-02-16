@@ -21,7 +21,6 @@ import com.vikvita.music_player.play_screen.R
 import com.vikvita.music_player.play_screen.models.PlayingTrackUiModel
 import com.vikvita.music_player.ui.theme.MusicPlayerTheme
 import com.vikvita.music_player.uikit.theme.Dimens
-
 @Composable
 internal fun CurrentTrackInfo(
     modifier: Modifier = Modifier,

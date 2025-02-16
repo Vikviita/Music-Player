@@ -32,7 +32,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     @ApiInteractor
     lateinit var apiPlayInteractor:PlayTrackInteractor
-
+/**
+ * Разрешения для того чтобы считывать данные с устройства учитывая версиб андроид
+ * */
     private val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_AUDIO
     } else {
@@ -58,7 +60,9 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
+     /**
+      * Запрос разрешения на считывание данных с хранилища, с повторным запросом если юзер закрыл диалог с разрешением
+      * */
     override fun onResume() {
         super.onResume()
         if (packageManager.checkPermission(

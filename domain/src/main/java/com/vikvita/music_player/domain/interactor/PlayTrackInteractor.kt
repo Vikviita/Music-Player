@@ -5,7 +5,9 @@ import com.vikvita.music_player.domain.models.Track
 import com.vikvita.music_player.domain.swap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
+/**
+ * Интерактор для получения списка треков,которые будут проиграны
+ * */
 class PlayTrackInteractor(
     private val trackRepository: TrackRepository
 ) {
@@ -14,7 +16,10 @@ class PlayTrackInteractor(
     val currentTrack = _currentTrack.asStateFlow()
     private var listOfTrack: MutableList<Track> = mutableListOf()
     val loadingTrackStatus = _loadingTrackStatus.asStateFlow()
-
+   /**
+    * Загрузка трека по id,а так же остальных треков из этого же альбома.
+    * Искомый трек будет в начале списка
+    * */
     suspend fun loadTrackAndAlbumTracks(trackId: String) {
         if(listOfTrack.isNotEmpty()) return
         _loadingTrackStatus.emit(LoadStatus.InProgress)
@@ -32,13 +37,17 @@ class PlayTrackInteractor(
             _loadingTrackStatus.emit(LoadStatus.Error(trackResult.exceptionOrNull()!!.message))
         }
     }
-
+/**
+ * Очистка данных после выхода с экрана проигрывания
+ * */
     fun clear() {
         listOfTrack.clear()
         _currentTrack.value = null
         _loadingTrackStatus.value = LoadStatus.Initial
     }
-
+/**
+ * Получение данных определенного трека из списка по индексу
+ * */
     suspend fun getTrackByIndex(index: Int) {
         val track = kotlin.runCatching { listOfTrack[index] }.getOrNull()
         _currentTrack.emit(track)

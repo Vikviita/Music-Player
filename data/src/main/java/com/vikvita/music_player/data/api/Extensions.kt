@@ -2,7 +2,9 @@ package com.vikvita.music_player.data.api
 
 import com.vikvita.music_player.data.api.models.TrackApiModel
 import com.vikvita.music_player.domain.models.Track
-
+/**
+ * Маппер для [TrackApiModel]
+ * */
 internal fun TrackApiModel.toDomainTrackModel():Track{
     return Track(
         id = this.id,
