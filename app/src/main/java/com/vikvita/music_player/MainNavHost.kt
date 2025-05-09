@@ -137,13 +137,13 @@ fun MainNavHost(
 @Serializable
 private sealed interface MainNavRoute {
     @Serializable
-    data object ApiTrackList
+    data object ApiTrackList:MainNavRoute
 
     @Serializable
-    data object LocalTrackList
+    data object LocalTrackList:MainNavRoute
 
     @Serializable
-    data class PlayMusicScreen(val id: String, val type: PlayMusicType)
+    data class PlayMusicScreen(val id: String, val type: PlayMusicType):MainNavRoute
 }
 /**
  * Enum класс для того чтобы знать какая реализация интерактора должна быть предоставлена для [PlayMusicViewModel]
